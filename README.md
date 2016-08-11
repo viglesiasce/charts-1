@@ -1,4 +1,4 @@
-# Bitnami Charts Repository
+# Bitnami Charts Repository (testing)
 
 This repository contains Charts for [Helm Classic](http://helm.sh/) and use Docker containers developed and maintained by [Bitnami](https://bitnami.com/)
 
