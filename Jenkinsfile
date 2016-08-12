@@ -16,7 +16,7 @@ node {
    stage 'Install helm'
    sh './linux-amd64/helm init'
    
-   def applications = sh(script: "git diff --name-only ${branch} | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
+   def applications = sh(script: "git diff --name-only ${branch} | grep / | awk -F/ '{print $1}' | uniq", returnStdout: true).trim().split()
    
   for (int i = 0; i < applications.size(); i++) {
       def application = applications[i]
