@@ -15,15 +15,20 @@ node {
    stage 'Install helm'
    sh './linux-amd64/helm init'
    
-   def application = 'mariadb'
+   git diff --name-only HEAD~1 HEAD 
+   def applications = sh(script: "git diff --name-only HEAD~1 HEAD | awk -F/ '{print $1}' | uniq", returnStdout: true).trim().split()
    
-   stage 'Run lint on application'
-   sh "./linux-amd64/helm lint ${application}"
+   for applications.each() {
+      stage 'Run lint on application'
+      sh "./linux-amd64/helm lint ${it}"
+      
+      stage 'Install application'
+      def releaseName = sh(script: "./linux-amd64/helm install ${application}", returnStdout: true).trim()
    
-   stage 'Install application'
-   def releaseName = sh(script: "./linux-amd64/helm install ${application}", returnStdout: true).trim()
+      stage 'Uninstall application'
+      sh "./linux-amd64/helm delete ${releaseName}"
+   }
    
-   stage 'Uninstall application'
-   sh "./linux-amd64/helm delete ${releaseName}"
+   
 
 }
