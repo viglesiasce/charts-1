@@ -4,7 +4,7 @@ node {
    stage 'Checkout code'
    def branch = "helm-2.0"
    // Get some code from a GitHub repository
-   git url: 'https://github.com/bitnami/charts.git', branch: branch
+   checkout scm
 
    // Mark the code build 'stage'....
    stage 'Download latest helm'
