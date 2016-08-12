@@ -1,4 +1,5 @@
 node {
+   sh "env"
    // Mark the code checkout 'stage'....
    stage 'Checkout code'
    def branch = "helm-2.0"
