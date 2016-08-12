@@ -2,7 +2,7 @@ node {
    sh "env"
    // Mark the code checkout 'stage'....
    stage 'Checkout code'
-   def branch = "helm-2.0"
+   def branch = "origin/helm-2.0"
    // Get some code from a GitHub repository
    checkout scm
 
