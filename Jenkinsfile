@@ -15,7 +15,6 @@ node {
    stage 'Install helm'
    sh './linux-amd64/helm init'
    
-   git diff --name-only HEAD~1 HEAD 
    def applications = sh(script: "git diff --name-only HEAD~1 HEAD | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
    
    applications.each() {
