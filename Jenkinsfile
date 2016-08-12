@@ -17,9 +17,10 @@ node {
    
    def applications = sh(script: "git diff --name-only HEAD~1 HEAD | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
    
-   applications.each() {
+  for (int i = 0; i < applications.size(); i++) {
+      def application = applications[i]
       stage 'Run lint on application'
-      sh "./linux-amd64/helm lint ${it}"
+      sh "./linux-amd64/helm lint ${application}"
       
       stage 'Install application'
       def releaseName = sh(script: "./linux-amd64/helm install ${application}", returnStdout: true).trim()
