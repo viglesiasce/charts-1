@@ -1,9 +1,10 @@
 node {
+   sh "env"
    // Mark the code checkout 'stage'....
    stage 'Checkout code'
-
+   def branch = "origin/helm-2.0"
    // Get some code from a GitHub repository
-   git url: 'https://github.com/bitnami/charts.git', branch: "helm-2.0"
+   checkout scm
 
    // Mark the code build 'stage'....
    stage 'Download latest helm'
@@ -15,7 +16,7 @@ node {
    stage 'Install helm'
    sh './linux-amd64/helm init'
    
-   def applications = sh(script: "git diff --name-only HEAD~1 HEAD | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
+   def applications = sh(script: "git diff --name-only ${branch} | grep / | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
    
   for (int i = 0; i < applications.size(); i++) {
       def application = applications[i]
@@ -28,7 +29,5 @@ node {
       stage 'Uninstall application'
       sh "./linux-amd64/helm delete ${releaseName}"
    }
-   
-   
 
 }
