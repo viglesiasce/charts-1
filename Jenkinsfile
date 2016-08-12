@@ -18,7 +18,7 @@ node {
    git diff --name-only HEAD~1 HEAD 
    def applications = sh(script: "git diff --name-only HEAD~1 HEAD | awk -F/ '{print \$1}' | uniq", returnStdout: true).trim().split()
    
-   for applications.each() {
+   applications.each() {
       stage 'Run lint on application'
       sh "./linux-amd64/helm lint ${it}"
       
